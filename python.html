@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      async function main() {
+        let pyodide = await loadPyodide();
+        await pyodide.loadPackage("micropip");
+        const micropip = pyodide.pyimport("micropip");
+        await micropip.install("pandas");
+        console.log(
+          pyodide.runPython(`
+import pandas as pd
+
+data = [
+    { 'category': 'a', 'value': 4, 'time': '2020-01-01 20:20:00'    },
+    { 'category': 'a', 'value': 6, 'time': '2021-01-01 20:20:00'  },
+    { 'category': 'x', 'value': 2, 'time': '2022-01-01 20:20:00'  },
+    { 'category': 'n', 'value': 1, 'time': '2023-01-01 20:20:00'  },
+    { 'category': 'a', 'value': 1, 'time': '2024-01-01 20:20:00'  },
+    { 'category': 'd', 'value': 3, 'time': '2025-01-01 20:20:00'  },
+    { 'category': 'e', 'value': 7, 'time': '2026-01-01 20:20:00'  },
+    { 'category': 'f', 'value': 8, 'time': '2027-01-01 20:20:00'  },
+]
+
+xf = pd.DataFrame(data)
+print(xf)`)
+        );
+      }
+      main();
+    </script>
+  </body>
+</html>
